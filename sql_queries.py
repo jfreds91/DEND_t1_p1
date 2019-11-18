@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS songplays (\
     songplay_id int PRIMARY KEY, \
     start_time int, \
     user_id int, \
-    level int, \
+    level text, \
     song_id text, \
     artist_id text, \
     session_id int, \
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS users (\
     first_name text, \
     last_name text, \
     gender text, \
-    level int) \
+    level text) \
 """)
 
 song_table_create = ("""\
@@ -70,11 +70,12 @@ user_table_insert = ("""
 song_table_insert = ("""INSERT INTO songs (song_id, title, artist_id, year, duration) \
 VALUES (%s, %s, %s, %s, %s) """)
 
-artist_table_insert = ("""
+artist_table_insert = ("""INSERT INTO artists (artist_id, name, location, latitude, longitude) \
+VALUES (%s, %s, %s, %s, %s)
 """)
 
-
-time_table_insert = ("""
+time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, year, weekday) \
+VALUES (%s, %s, %s, %s, %s, %s, %s)
 """)
 
 # FIND SONGS
