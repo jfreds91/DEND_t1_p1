@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS songplays (\
     start_time int, \
     user_id int, \
     level int, \
-    song_id int, \
-    artist_id int, \
+    song_id text, \
+    artist_id text, \
     session_id int, \
     location text, \
     user_agent text) \
@@ -32,16 +32,16 @@ CREATE TABLE IF NOT EXISTS users (\
 
 song_table_create = ("""\
 CREATE TABLE IF NOT EXISTS songs (\
-    song_id int PRIMARY KEY, \
+    song_id text PRIMARY KEY, \
     title text, \
-    artist_id int, \
+    artist_id text, \
     year int, \
     duration float) \
 """)
 
 artist_table_create = ("""\
 CREATE TABLE IF NOT EXISTS artists (\
-    artist_id int PRIMARY KEY, \
+    artist_id text PRIMARY KEY, \
     name text, \
     location text, \
     latitude float, \
@@ -67,8 +67,8 @@ songplay_table_insert = ("""
 user_table_insert = ("""
 """)
 
-song_table_insert = ("""
-""")
+song_table_insert = ("""INSERT INTO songs (song_id, title, artist_id, year, duration) \
+VALUES (%s, %s, %s, %s, %s) """)
 
 artist_table_insert = ("""
 """)
