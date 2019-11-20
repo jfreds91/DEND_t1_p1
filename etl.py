@@ -7,7 +7,9 @@ from sql_queries import *
 
 
 def convert_type(l:list):
-    # converts all filetypes in a list to native types if they are numpy
+    '''
+    converts all filetypes in a list to native types if they are numpy
+    '''
     new_l = []
     for i in range(len(l)):
         try:
@@ -18,6 +20,15 @@ def convert_type(l:list):
 
 
 def process_song_file(conn, cur, filepath):
+    '''
+    Interprets json song file records and inserts them into the songs and artists tables
+    INPUTS:
+        conn: postgres connection object
+        cur: postgres cursor object
+        filepath: (str) full filepath of .json file
+    
+    RETURNS: None
+    '''
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -39,6 +50,15 @@ def process_song_file(conn, cur, filepath):
 
 
 def process_log_file(conn, cur, filepath):
+    '''
+    Interprets json log file records and inserts them into the users, time, and songplays tables
+    INPUTS:
+        conn: postgres connection object
+        cur: postgres cursor object
+        filepath: (str) full filepath of .json file
+    
+    RETURNS: None
+    '''
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -81,6 +101,7 @@ def process_log_file(conn, cur, filepath):
         # get songid and artistid from song and artist tables
         cur.execute(song_select, (row.song, row.artist, row.length))
         results = cur.fetchone()
+        # print(row.song, row.artist, row.length)
         
         if results:
             songid, artistid = results
@@ -93,6 +114,11 @@ def process_log_file(conn, cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    '''
+    Applies supplied function to all files in designated path; passes connection
+    and cursor objects to function
+    '''
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
